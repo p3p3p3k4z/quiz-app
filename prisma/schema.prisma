@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modelo para la tabla de preguntas
+model Question {
+  id            Int             @id @default(autoincrement())
+  question_text String          @db.Text
+  topic         String?         @db.VarChar(255) // El campo 'topic' es opcional
+  answers       QuestionAnswer[] // Relación con la tabla intermedia QuestionAnswer
+
+  @@map("questions") // Mapea este modelo a la tabla 'questions' en la DB
+}
+
+// Modelo para la tabla de respuestas
+model Answer {
+  id          Int             @id @default(autoincrement())
+  answer_text String          @db.Text
+  questions   QuestionAnswer[] // Relación con la tabla intermedia QuestionAnswer
+
+  @@map("answers") // Mapea este modelo a la tabla 'answers' en la DB
+}
+
+// Modelo para la tabla intermedia que relaciona preguntas y respuestas
+model QuestionAnswer {
+  question_id Int      @map("question_id") // Columna de clave foránea para Question
+  answer_id   Int      @map("answer_id")   // Columna de clave foránea para Answer
+  is_correct  Boolean  @default(false)
+  question    Question @relation(fields: [question_id], references: [id]) // Define la relación con Question
+  answer      Answer   @relation(fields: [answer_id], references: [id])     // Define la relación con Answer
+
+  @@id([question_id, answer_id]) // Clave primaria compuesta
+  @@map("question_answers") // Mapea este modelo a la tabla 'question_answers' en la DB
+}
