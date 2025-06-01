@@ -27,43 +27,6 @@ CREATE TABLE question_answers (
     PRIMARY KEY (question_id, answer_id)
 );
 
-
--- PRUEBA DE EJEMPLO DE UN CODIGO EN C
-
--- Pregunta 1
-INSERT INTO questions (question_text, topic) VALUES ('¿Qué hace el siguiente código C?
-```c
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
-int main() {
-    pid_t pid = fork();
-    if (pid == 0) {
-        // Child process
-        printf("Soy el hijo. PID: %d\\n", getpid());
-    } else if (pid > 0) {
-        // Parent process
-        wait(NULL);
-        printf("Soy el padre. PID: %d, PID del hijo: %d\\n", getpid(), pid);
-    }
-    return 0;
-}
-```', 'Procesos');
-
-INSERT INTO answers (answer_text) VALUES
-('Crea un proceso hijo que se ejecuta después del padre y luego el padre espera que el hijo termine.'),
-('Crea un proceso hijo que se ejecuta en paralelo con el padre. Ambos imprimen sus PIDs y el padre espera al hijo.'),
-('Crea un proceso hijo que reemplaza al padre en la ejecución. Solo el hijo imprime su PID.'),
-('Este código C contiene un error de sintaxis y no compilará.');
-
-INSERT INTO question_answers (question_id, answer_id, is_correct) VALUES
-((SELECT id FROM questions WHERE question_text LIKE '%¿Qué hace el siguiente código C?%LIMIT 1'), (SELECT id FROM answers WHERE answer_text LIKE 'Crea un proceso hijo que se ejecuta en paralelo con el padre. Ambos imprimen sus PIDs y el padre espera al hijo.%' LIMIT 1), TRUE),
-((SELECT id FROM questions WHERE question_text LIKE '%¿Qué hace el siguiente código C?%LIMIT 1'), (SELECT id FROM answers WHERE answer_text LIKE 'Crea un proceso hijo que se ejecuta después del padre y luego el padre espera que el hijo termine.%' LIMIT 1), FALSE),
-((SELECT id FROM questions WHERE question_text LIKE '%¿Qué hace el siguiente código C?%LIMIT 1'), (SELECT id FROM answers WHERE answer_text LIKE 'Crea un proceso hijo que reemplaza al padre en la ejecución. Solo el hijo imprime su PID.%' LIMIT 1), FALSE),
-((SELECT id FROM questions WHERE question_text LIKE '%¿Qué hace el siguiente código C?%LIMIT 1'), (SELECT id FROM answers WHERE answer_text LIKE 'Este código C contiene un error de sintaxis y no compilará.%' LIMIT 1), FALSE);
-
-
 -- Pregunta 2: Concepto de Proceso
 INSERT INTO questions (question_text, topic) VALUES ('¿Cuál es la definición más precisa de un "proceso" en el contexto de sistemas operativos?', 'Procesos');
 

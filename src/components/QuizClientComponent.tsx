@@ -31,12 +31,13 @@ export default function QuizClientComponent({ allQuestions }: QuizClientComponen
 
   // Memoiza la selección de preguntas para que solo se haga una vez al iniciar el quiz
   const selectRandomQuestions = () => {
-    if (allQuestions.length < 10) {
-      setErrorMessage("No hay suficientes preguntas en la base de datos. Se necesitan al menos 10.");
+    // Ya no hay restricción de 10 preguntas, usa todas las disponibles
+    if (allQuestions.length === 0) {
+      setErrorMessage("No hay preguntas disponibles en la base de datos para iniciar el cuestionario.");
       return;
     }
     const shuffled = shuffleArray([...allQuestions]); // Copia para no mutar el original
-    setQuizQuestions(shuffled.slice(0, 10)); // Selecciona las primeras 10 aleatorias
+    setQuizQuestions(shuffled); // Usa todas las preguntas disponibles
     setQuizStarted(true);
     setCurrentQuestionIndex(0);
     setSelectedAnswers(new Map()); // Reinicia las respuestas seleccionadas
@@ -122,7 +123,7 @@ export default function QuizClientComponent({ allQuestions }: QuizClientComponen
               onClick={selectRandomQuestions}
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg"
             >
-              Iniciar Cuestionario (10 Preguntas Aleatorias)
+              Iniciar Cuestionario ({allQuestions.length} Preguntas Aleatorias)
             </button>
           </div>
         </div>
