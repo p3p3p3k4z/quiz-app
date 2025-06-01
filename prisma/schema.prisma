@@ -14,29 +14,29 @@ datasource db {
 model Question {
   id            Int             @id @default(autoincrement())
   question_text String          @db.Text
-  topic         String?         @db.VarChar(255) // El campo 'topic' es opcional
-  answers       QuestionAnswer[] // Relación con la tabla intermedia QuestionAnswer
+  topic         String?         @db.VarChar(255)
+  answers       QuestionAnswer[]
 
-  @@map("questions") // Mapea este modelo a la tabla 'questions' en la DB
+  @@map("questions")
 }
 
 // Modelo para la tabla de respuestas
 model Answer {
   id          Int             @id @default(autoincrement())
   answer_text String          @db.Text
-  questions   QuestionAnswer[] // Relación con la tabla intermedia QuestionAnswer
+  questions   QuestionAnswer[]
 
-  @@map("answers") // Mapea este modelo a la tabla 'answers' en la DB
+  @@map("answers")
 }
 
 // Modelo para la tabla intermedia que relaciona preguntas y respuestas
 model QuestionAnswer {
-  question_id Int      @map("question_id") // Columna de clave foránea para Question
-  answer_id   Int      @map("answer_id")   // Columna de clave foránea para Answer
+  question_id Int      @map("question_id")
+  answer_id   Int      @map("answer_id")
   is_correct  Boolean  @default(false)
-  question    Question @relation(fields: [question_id], references: [id]) // Define la relación con Question
-  answer      Answer   @relation(fields: [answer_id], references: [id])     // Define la relación con Answer
+  question    Question @relation(fields: [question_id], references: [id])
+  answer      Answer   @relation(fields: [answer_id], references: [id])
 
-  @@id([question_id, answer_id]) // Clave primaria compuesta
-  @@map("question_answers") // Mapea este modelo a la tabla 'question_answers' en la DB
+  @@id([question_id, answer_id])
+  @@map("question_answers")
 }

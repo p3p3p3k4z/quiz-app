@@ -1,5 +1,8 @@
--- Eliminar tablas existentes para una inicialización limpia (opcional, solo si quieres empezar de cero cada vez que el contenedor se levante por primera vez)
-DROP TABLE IF EXISTS question_answers CASCADE; -- Añadido CASCADE para eliminar dependencias
+-- Detener la ejecución del script si ocurre un error
+\set ON_ERROR_STOP on
+
+-- Eliminar tablas existentes para una inicialización limpia
+DROP TABLE IF EXISTS question_answers CASCADE;
 DROP TABLE IF EXISTS answers CASCADE;
 DROP TABLE IF EXISTS questions CASCADE;
 
@@ -192,7 +195,7 @@ INSERT INTO answers (answer_text) VALUES
 
 INSERT INTO question_answers (question_id, answer_id, is_correct) VALUES
 ((SELECT id FROM questions WHERE question_text = '¿Por qué los sistemas operativos utilizan modos de operación (kernel y usuario)?'), (SELECT id FROM answers WHERE answer_text = 'Para proteger el sistema operativo y los recursos críticos de accesos no autorizados por parte de programas de usuario.'), TRUE),
-((SELECT id FROM questions WHERE question_text = '¿Por qué los sistemas operativos utilizan modos de operación (kernel y usuario)?'), (SELECT id FROM answers WHERE answer_text = 'Para permitir que cualquier programa acceda a recursos críticos del sistema.'), FALSE),
+((SELECT id FROM questions WHERE question_text = '¿Por qué los sistemas operativos utilizan modos de operación (kernel y usuario)?'), (SELECT id FROM answers WHERE answer_text = 'Para diferenciar entre procesos de usuario y demonios del sistema.'), FALSE),
 ((SELECT id FROM questions WHERE question_text = '¿¿Por qué los sistemas operativos utilizan modos de operación (kernel y usuario)?'), (SELECT id FROM answers WHERE answer_text = 'Para diferenciar entre procesos de usuario y demonios del sistema.'), FALSE),
 ((SELECT id FROM questions WHERE question_text = '¿Por qué los sistemas operativos utilizan modos de operación (kernel y usuario)?'), (SELECT id FROM answers WHERE answer_text = 'Para mejorar el rendimiento general del sistema al ejecutar todo en modo kernel.'), FALSE);
 
@@ -270,7 +273,7 @@ INSERT INTO answers (answer_text) VALUES
 ('La paginación es susceptible a la fragmentación externa, mientras que la segmentación es susceptible a la fragmentación interna.');
 
 INSERT INTO question_answers (question_id, answer_id, is_correct) VALUES
-((SELECT id FROM questions WHERE question_text = '¿Cuál es la principal diferencia entre la segmentación y la paginación en la gestión de memoria?'), (SELECT id FROM answers WHERE answer_text = 'La segmentación es visible para el programador, mientras que la pagelización es transparente.'), TRUE),
+((SELECT id FROM questions WHERE question_text = '¿Cuál es la principal diferencia entre la segmentación y la paginación en la gestión de memoria?'), (SELECT id FROM answers WHERE answer_text = 'La segmentación es visible para el programador, mientras que la paginación es transparente.'), TRUE),
 ((SELECT id FROM questions WHERE question_text = '¿Cuál es la principal diferencia entre la segmentación y la paginación en la gestión de memoria?'), (SELECT id FROM answers WHERE answer_text = 'La segmentación divide la memoria en bloques de tamaño fijo, mientras que la paginación lo hace en bloques de tamaño variable.'), FALSE),
 ((SELECT id FROM questions WHERE question_text = '¿Cuál es la principal diferencia entre la segmentación y la paginación en la gestión de memoria?'), (SELECT id FROM answers WHERE answer_text = 'La segmentación utiliza tablas de páginas, mientras que la paginación utiliza tablas de segmentos.'), FALSE),
 ((SELECT id FROM questions WHERE question_text = '¿Cuál es la principal diferencia entre la segmentación y la paginación en la gestión de memoria?'), (SELECT id FROM answers WHERE answer_text = 'La paginación es susceptible a la fragmentación externa, mientras que la segmentación es susceptible a la fragmentación interna.'), FALSE);
