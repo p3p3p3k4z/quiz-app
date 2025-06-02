@@ -2,7 +2,7 @@
 
 import prisma from '@/lib/prisma';
 import { QuestionData } from '@/interfaces/quiz';
-import QuizClientComponent from '@/components/QuizClientComponent'; // Importa el nuevo Client Component
+import QuizContainer from '@/components/QuizContainer'; // Importa el nuevo QuizContainer
 
 export const dynamic = 'force-dynamic'; // Asegura que esta página siempre se renderice en el servidor
 
@@ -20,6 +20,7 @@ export default async function QuestionsPage() {
         },
       },
     });
+    console.log(`[Server Component] Preguntas obtenidas de la DB: ${allQuestions.length}`);
   } catch (error: any) {
     console.error('Error al obtener preguntas de la base de datos en QuestionsPage (Server Component):', error);
     errorMessage = `Error al cargar las preguntas: ${error.message || 'Error desconocido de la base de datos.'}`;
@@ -29,6 +30,6 @@ export default async function QuestionsPage() {
     }
   }
 
-  // Pasa las preguntas (o un array vacío si hay error) al Client Component
-  return <QuizClientComponent allQuestions={allQuestions} />;
+  // Pasa todas las preguntas (o un array vacío si hay error) al Client Component
+  return <QuizContainer allQuestions={allQuestions} />;
 }
