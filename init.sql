@@ -27,6 +27,19 @@ CREATE TABLE question_answers (
     PRIMARY KEY (question_id, answer_id)
 );
 
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(255) UNIQUE NOT NULL,
+    password TEXT NOT NULL, -- Almacenará la contraseña en texto plano para este ejemplo simple
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (nombre, password) VALUES
+('usuario1', 'password123'),
+('admin', 'adminpass'),
+('maria', 'secreta');
+
 -- Pregunta 2: Concepto de Proceso
 INSERT INTO questions (question_text, topic) VALUES ('¿Cuál es la definición más precisa de un "proceso" en el contexto de sistemas operativos?', 'Procesos');
 

@@ -40,3 +40,13 @@ model QuestionAnswer {
   @@id([question_id, answer_id])
   @@map("question_answers")
 }
+
+model User {
+  id        Int      @id @default(autoincrement()) // ID autoincremental
+  nombre    String   @unique // Nombre de usuario único
+  password  String   // Contraseña (texto plano)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}

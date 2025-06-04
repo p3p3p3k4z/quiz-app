@@ -1,7 +1,6 @@
 // src/app/page.tsx
 import Link from 'next/link';
-// Asegúrate de que la importación sea por defecto:
-import AvatarDisplay from '@/components/AvatarDisplay'; 
+import AvatarDisplay from '@/components/AvatarDisplay'; // Importa el componente cliente para avatares
 
 export default function HomePage() {
   return (
@@ -14,9 +13,16 @@ export default function HomePage() {
         <p className="text-lg md:text-xl text-gray-700 mb-10">
           Descubre vulnerabilidades ocultas, evalúa tu exposición al riesgo y fortalece las defensas antes de que los ciberdelincuentes exploten las debilidades. ¿Estás preparado?
         </p>
-        <Link href="/questions" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg text-xl">
-          Comenzar el cuestionario
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          {/* Botón para Iniciar Sesión */}
+          <Link href="/login" className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg text-xl">
+            Iniciar Sesión
+          </Link>
+          {/* Botón para Empezar Cuestionario como Invitado */}
+          <Link href="/questions" className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-4 px-8 rounded-xl transition-colors duration-300 shadow-lg text-xl">
+            Empezar Cuestionario (Invitado)
+          </Link>
+        </div>
       </div>
 
       {/* Sección derecha con fondo oscuro */}
@@ -24,7 +30,7 @@ export default function HomePage() {
         <h2 className="text-3xl md:text-4xl font-bold mb-6 leading-snug">
           ¡Haz el cuestionario de evaluación de riesgos de 4 minutos y obtén un informe personalizado de tu ciberseguridad!
         </h2>
-        {/* Usar el componente directamente como <AvatarDisplay /> */}
+        {/* Usar el nuevo Client Component para los avatares */}
         <AvatarDisplay />
       </div>
     </div>
