@@ -1,3 +1,16 @@
+# Quiz-App
+
+#### Lanzar o Reiniciar el proyecto
+```bash
+docker-compose down -v
+sudo rm -rf ./postgres
+docker-compose up -d quizDB
+npm install
+npx prisma generate
+rm .rf .next/ .turbo/
+npm run dev
+```
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
