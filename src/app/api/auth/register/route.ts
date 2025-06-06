@@ -1,36 +1,45 @@
 // src/app/api/auth/register/route.ts
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/prisma';
+import prisma from '@/lib/prisma'; // Importa la instancia de Prisma
 
 export async function POST(request: Request) {
   try {
-    const { nombre, password } = await request.json();
+    const { username, password, role } = await request.json(); // Obtiene el nombre de usuario, contraseña y rol
 
-    if (!nombre || !password) {
-      return NextResponse.json({ message: 'Nombre de usuario y contraseña son requeridos.' }, { status: 400 });
+    // Valida que todos los campos requeridos estén presentes
+    if (!username || !password || !role) {
+      return NextResponse.json({ message: 'Nombre de usuario, contraseña y rol son requeridos.' }, { status: 400 });
     }
 
-    // Verificar si el usuario ya existe
+    // Valida que el rol proporcionado sea uno de los valores permitidos (STUDENT o PROFESSOR)
+    if (!['STUDENT', 'PROFESSOR'].includes(role.toUpperCase())) {
+      return NextResponse.json({ message: 'Rol inválido. Los roles permitidos son STUDENT o PROFESSOR.' }, { status: 400 });
+    }
+
+    // Verifica si ya existe un usuario con el mismo nombre de usuario
     const existingUser = await prisma.user.findUnique({
-      where: { nombre: nombre },
+      where: { nombre: username },
     });
 
     if (existingUser) {
-      return NextResponse.json({ message: 'El nombre de usuario ya está en uso.' }, { status: 409 });
+      return NextResponse.json({ message: 'El nombre de usuario ya existe.' }, { status: 409 });
     }
 
-    // Crear el nuevo usuario en la base de datos con la contraseña en texto plano
-    // ADVERTENCIA: MUY INSEGURO para producción. Solo para este ejemplo simple.
+    // Crea un nuevo usuario en la base de datos
+    // NOTA: En una aplicación de producción, la contraseña DEBE ser hasheada (e.g., con bcrypt)
+    // antes de ser almacenada por razones de seguridad. Aquí se almacena en texto plano para simplificar.
     const newUser = await prisma.user.create({
       data: {
-        nombre: nombre,
-        password: password, // Contraseña guardada directamente
+        nombre: username,
+        password: password, // Contraseña en texto plano (¡solo para desarrollo!)
+        role: role.toUpperCase(), // Almacena el rol como STRING en mayúsculas
       },
     });
 
-    return NextResponse.json({ message: 'Usuario registrado exitosamente.', userId: newUser.id }, { status: 201 });
+    return NextResponse.json({ message: 'Usuario registrado exitosamente', user: newUser }, { status: 201 });
+
   } catch (error) {
-    console.error('Error en el registro de usuario:', error);
+    console.error('Error durante el registro:', error);
     return NextResponse.json({ message: 'Error interno del servidor.' }, { status: 500 });
   }
 }

@@ -1,16 +1,23 @@
+version: '3.8'
+
 services:
+  # Servicio de la base de datos PostgreSQL
   quizDB:
     image: postgres:15.3
     container_name: quiz-db
     restart: always
     ports:
-      - 5460:5432 # HOST_PORT:CONTAINER_PORT
+      - "5460:5432" # HOST_PORT:CONTAINER_PORT (5460 en tu host, 5432 en el contenedor)
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      POSTGRES_DB: mydatabase     # <-- ¡CORREGIDO! Nombre de la base de datos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      # Monta tu init.sql para que se ejecute automáticamente en el primer inicio del contenedor
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Volumen persistente para los datos de la base de datos en tu host
+      # MUY IMPORTANTE: La eliminación de esta carpeta (./postgres) es lo que resetea la DB
+      - ./postgres:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -h localhost -p 5432"]
       interval: 5s

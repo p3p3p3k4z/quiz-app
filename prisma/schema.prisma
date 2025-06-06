@@ -42,11 +42,26 @@ model QuestionAnswer {
 }
 
 model User {
-  id        Int      @id @default(autoincrement()) // ID autoincremental
-  nombre    String   @unique // Nombre de usuario único
-  password  String   // Contraseña (texto plano)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int        @id @default(autoincrement())
+  nombre      String     @unique @db.VarChar(255)
+  password    String     @db.Text
+  role        String     @default("STUDENT") // Campo para el rol: STUDENT o PROFESSOR
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  examResults ExamResult[] // Relación con los resultados de exámenes del usuario
 
-  @@map("users")
+  @@map("users") // Mapea este modelo a la tabla 'users' en la DB
+}
+
+model ExamResult {
+  id         Int      @id @default(autoincrement())
+  studentId  Int      @map("student_id")
+  examTitle  String   @map("exam_title") @db.VarChar(255)
+  score      Int
+  maxScore   Int      @map("max_score")
+  createdAt  DateTime @default(now()) @map("created_at")
+  
+  student    User     @relation(fields: [studentId], references: [id]) // Relación con el modelo User
+
+  @@map("exam_results") // Mapea este modelo a la tabla 'exam_results' en la DB
 }

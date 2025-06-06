@@ -5,6 +5,8 @@
 DROP TABLE IF EXISTS question_answers CASCADE;
 DROP TABLE IF EXISTS answers CASCADE;
 DROP TABLE IF EXISTS questions CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS exam_results CASCADE;
 
 -- Tabla para almacenar las preguntas
 CREATE TABLE questions (
@@ -30,15 +32,30 @@ CREATE TABLE question_answers (
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) UNIQUE NOT NULL,
-    password TEXT NOT NULL, -- Almacenará la contraseña en texto plano para este ejemplo simple
+    password TEXT NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'STUDENT', -- Añadido el campo 'role'
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_role CHECK (role IN ('STUDENT', 'PROFESSOR')) -- Restricción para asegurar valores válidos
 );
 
-INSERT INTO users (nombre, password) VALUES
-('usuario1', 'password123'),
-('admin', 'adminpass'),
-('maria', 'secreta');
+CREATE TABLE exam_results (
+    id SERIAL PRIMARY KEY,
+    student_id INT REFERENCES users(id), -- Clave foránea al ID del estudiante
+    exam_title VARCHAR(255) NOT NULL,
+    score INT NOT NULL,
+    max_score INT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO users (nombre, password, role) VALUES
+('profesor1', 'passprofesor', 'PROFESSOR'),
+('estudiante1', 'passestudiante', 'STUDENT'),
+('usuario1', 'password123', 'STUDENT'),
+('admin', 'adminpass', 'PROFESSOR'),
+('maria', 'secreta', 'STUDENT');
+
 
 -- Pregunta 2: Concepto de Proceso
 INSERT INTO questions (question_text, topic) VALUES ('¿Cuál es la definición más precisa de un "proceso" en el contexto de sistemas operativos?', 'Procesos');
