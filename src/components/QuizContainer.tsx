@@ -291,7 +291,7 @@ export default function QuizContainer({ allQuestions, userId, userName, userRole
               setCurrentQuestionIndexInTopic(0);
               setSelectedAnswers(new Map());
               setScore(0);
-              router.push('/login'); // Redirige al login después de reiniciar
+              router.push('/'); // Redirige al incio después de reiniciar
             }}
             className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg"
           >
