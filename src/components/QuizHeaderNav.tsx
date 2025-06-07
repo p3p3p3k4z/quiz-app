@@ -24,9 +24,8 @@ export default function QuizHeaderNav({ userName, userRole, children, categories
     try {
       // Limpia cualquier estado de sesión en el cliente (localStorage)
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('userRole'); // Limpia también el rol
+        localStorage.removeItem('userSession'); // Limpia la sesión completa
+        // Ya no es necesario limpiar userId, userName, userRole individualmente si se guarda en 'userSession'
       }
       // Redirige al usuario a la página de login
       router.push('/login');
@@ -58,14 +57,14 @@ export default function QuizHeaderNav({ userName, userRole, children, categories
       </div>
 
       <div className="flex items-center space-x-4">
-        {/* Renderiza el children (AvatarDisplay) si se proporciona */}
-        {children}
-
-        {/* Muestra el nombre de usuario si está disponible */}
+        {/* Enlace al perfil de usuario */}
         {userName && (
-          <span className="text-gray-700 font-semibold text-lg hidden sm:inline">
-            Hola, {userName}
-          </span>
+          <Link href="/profile" className="flex items-center space-x-2 cursor-pointer hover:opacity-80 transition-opacity">
+            {children} {/* Renderiza el AvatarDisplay */}
+            <span className="text-gray-700 font-semibold text-lg hidden sm:inline">
+              Hola, {userName}
+            </span>
+          </Link>
         )}
 
         {/* Botón de cerrar sesión */}
@@ -76,9 +75,6 @@ export default function QuizHeaderNav({ userName, userRole, children, categories
           Cerrar Sesión
         </button>
       </div>
-
-      {/* Las props de navegación de categorías se eliminaron de la renderización aquí */}
-      {/* Ya que ahora se manejan directamente en QuizContainer */}
     </header>
   );
 }
