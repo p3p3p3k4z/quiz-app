@@ -103,9 +103,9 @@ export default function HomePage() {
 
       {/* Sección derecha con fondo oscuro y la imagen */}
       <div className="flex-1 max-w-md lg:max-w-xl bg-gradient-to-br from-purple-800 to-red-800 text-black rounded-3xl p-8 md:p-10 shadow-xl mt-10 lg:mt-0 lg:ml-10 flex flex-col items-center justify-center">
-        <h2 className="text-3xl md:text-2xl font-bold mb-6 leading-snug text-center">
+       {/* <h2 className="text-3xl md:text-2xl font-bold mb-6 leading-snug text-center">
           ¡Demuestra tu dominio en Sistemas Operativos y obtén retroalimentación inmediata!
-        </h2>
+        </h2>*/}
         {/* Imagen/GIF */}
         <img
           src="https://media.tenor.com/X6oLkn9sBewAAAAj/sparklepandalana-penguin.gif" // Reemplaza con la URL de tu GIF

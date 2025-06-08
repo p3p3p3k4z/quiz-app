@@ -97,13 +97,13 @@ async function handleGenerateQuestions(topic: string, numQuestions: number): Pro
       required: ["question_text", "question_type", "correct_answer_reference"]
     };
 
-    const prompt = `Genera ${numQuestions} preguntas variadas (opción múltiple, completar, y evaluación de código) sobre el tema de "${topic}".
+    const prompt = `Genera ${numQuestions} preguntas variadas (opción múltiple, completar, y evaluación de código) sobre el tema de "${topic}".Adiccionando lo relacionado a procesos,memoria,hilos,IPC,etc.
     Para cada pregunta, proporciona:
     - "question_text": El texto de la pregunta.
     - "question_type": "MULTIPLE_CHOICE", "FILL_IN_BLANK" o "CODE_EVAL".
     - "correct_answer_reference": Para opción múltiple, debe ser un JSON string de UN array de objetos { "answerText": "...", "isCorrect": true } representando solo las respuestas correctas. Para completar, la respuesta exacta. Para código, criterios de evaluación o salida esperada (ej. "La salida debe ser 'Hola Mundo'").
     - Para "MULTIPLE_CHOICE", incluye un array de objetos "answers" con "answerText" y "isCorrect" para TODAS las opciones.
-    - Para "CODE_EVAL", incluye opcionalmente "language" (ej. "Python", "C", "JavaScript") y "initial_code" (el código inicial para el estudiante).
+    - Para "CODE_EVAL", incluye solo el lenguaje "C" y "initial_code" (el código inicial para el estudiante).
 
     Asegúrate de que la salida sea un ARRAY de objetos JSON, cada uno siguiendo el formato de este esquema: ${JSON.stringify(questionSchema)}
     Genera preguntas relacionadas con Sistemas Operativos.`;
