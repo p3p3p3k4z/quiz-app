@@ -232,7 +232,7 @@ export default function QuizContainer({ allQuestions, userId, userName, userRole
 
   // Renderizado condicional para la pantalla de inicio del quiz (antes de empezar)
   if (!quizStarted) {
-    const totalQuestionsCount = allQuestions.length;
+    const totalQuestionsCount = allQuestions.length; // Asegúrate de que `allQuestions` está definido
     return (
       // Aplicar fondo blanco y sombra para consistencia
       <div className="bg-white rounded-3xl p-8 md:p-10 shadow-xl text-center text-gray-600 text-lg mx-auto w-full max-w-xl">
@@ -245,14 +245,30 @@ export default function QuizContainer({ allQuestions, userId, userName, userRole
             ¡Prepárate para poner a prueba tus conocimientos!
           </p>
           {userRole === 'STUDENT' ? (
-            <button
-              onClick={startQuiz}
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg"
-            >
-              Iniciar Cuestionario ({totalQuestionsCount} Preguntas)
-            </button>
+            <div className="flex flex-col space-y-4 items-center"> {/* Usa flexbox para alinear botones */}
+              <button
+                onClick={startQuiz}
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg w-full max-w-xs"
+              >
+                Iniciar Cuestionario ({totalQuestionsCount} Preguntas)
+              </button>
+              <button
+                onClick={() => router.push('/cuestionario-ia')} // Redirige a /cuestionario-ia
+                className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg w-full max-w-xs"
+              >
+                Ir a Cuestionario IA
+              </button>
+            </div>
           ) : (
-            <p className="text-lg text-gray-600">Puedes revisar las preguntas a continuación.</p>
+            <div className="flex flex-col space-y-4 items-center">
+              <p className="text-lg text-gray-600">Puedes revisar las preguntas a continuación.</p>
+              <button
+                onClick={() => router.push('/cuestionario-ia')} // Redirige a /cuestionario-ia también para profesores
+                className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 shadow-lg w-full max-w-xs"
+              >
+                Ir a Cuestionario IA
+              </button>
+            </div>
           )}
         </div>
       </div>
