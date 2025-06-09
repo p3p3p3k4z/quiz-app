@@ -1,5 +1,17 @@
 # Quiz-App
 
+![incio](/public/preview.png)
+
+- Cuestionario
+Incluye dos cuestioanrios uno de forma local extraido de la DB y otro generado por la IA, junto con su respectiva retroalimentacion
+![question](/public/preview3.png)
+
+- Sistemas 
+El profesor puede tener un panel para administrar a los alumnos
+El alumno puede ver sus datos y calificaciones
+
+![profe](/public/preview4.png)
+
 #### Lanzar o Reiniciar el proyecto
 ```bash
 docker-compose down -v
